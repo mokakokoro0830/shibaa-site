@@ -1,0 +1,54 @@
+---
+import SEO from '../components/seo/SEO.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  pubDate?: Date;
+  updatedDate?: Date;
+  noindex?: boolean;
+  jsonLd?: object;
+}
+
+const { title, description, image, type, pubDate, updatedDate, noindex, jsonLd } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja" class="scroll-smooth">
+  <head>
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      noindex={noindex}
+    />
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- ダークモード -->
+    <script is:inline>
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </body>
+</html>

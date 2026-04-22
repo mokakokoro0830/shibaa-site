@@ -1,0 +1,60 @@
+---
+interface Props {
+  title: string;
+  image: string;
+  description?: string;
+  amazon?: string;
+  rakuten?: string;
+  yahoo?: string;
+}
+
+const { title, image, description, amazon, rakuten, yahoo } = Astro.props;
+
+const links = [
+  { label: 'Amazon で見る', url: amazon, color: 'bg-orange-400 hover:bg-orange-500', icon: '📦' },
+  { label: '楽天で見る', url: rakuten, color: 'bg-red-500 hover:bg-red-600', icon: '🛒' },
+  { label: 'Yahoo!で見る', url: yahoo, color: 'bg-rose-500 hover:bg-rose-600', icon: '🛍' },
+].filter(link => link.url);
+---
+
+<div class="my-8 border-2 border-sky-200 dark:border-sky-800 rounded-xl overflow-hidden shadow-sm">
+  <div class="bg-sky-50 dark:bg-sky-900/20 px-4 py-2 text-xs font-medium text-sky-700 dark:text-sky-300">
+    📎 商品リンク（PR）
+  </div>
+  <div class="flex flex-col sm:flex-row gap-4 p-4 bg-white dark:bg-gray-800">
+    <!-- 商品画像 -->
+    <div class="sm:w-36 shrink-0">
+      <img
+        src={image}
+        alt={title}
+        class="w-full sm:w-36 h-36 object-contain rounded-lg"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- 情報とリンク -->
+    <div class="flex flex-col justify-between gap-3 flex-1">
+      <div>
+        <h4 class="font-bold text-base text-gray-800 dark:text-gray-100 leading-snug">{title}</h4>
+        {description && (
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{description}</p>
+        )}
+      </div>
+
+      <!-- 購入リンク -->
+      <div class="flex flex-wrap gap-2">
+        {links.map(link => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="nofollow sponsored noopener noreferrer"
+            class={`inline-flex items-center gap-1 text-sm text-white font-medium px-4 py-2 rounded-lg no-underline transition-colors ${link.color}`}
+          >
+            <span>{link.icon}</span>
+            <span>{link.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

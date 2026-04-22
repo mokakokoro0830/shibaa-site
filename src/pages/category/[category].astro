@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/blog/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const categories = [...new Set(posts.map(p => p.data.category))];
+  return categories.map(category => ({
+    params: { category },
+    props: { category, posts: posts.filter(p => p.data.category === category) },
+  }));
+}
+
+const { category, posts } = Astro.props;
+const sorted = [...posts].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title={`カテゴリ: ${category}`}
+  description={`「${category}」カテゴリの記事一覧。しば海日和。`}
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-sky-600 dark:text-sky-400 hover:underline">← ブログ一覧</a>
+    </div>
+    <h1 class="text-2xl md:text-3xl font-bold mb-2">
+      カテゴリ: <span class="text-sky-600 dark:text-sky-400">{category}</span>
+    </h1>
+    <p class="text-gray-500 dark:text-gray-400 mb-8">{sorted.length} 記事</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sorted.map(post => <ArticleCard post={post} />)}
+    </div>
+  </div>
+</BaseLayout>

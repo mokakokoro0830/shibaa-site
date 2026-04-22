@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/blog/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const categories = [...new Set(posts.map(p => p.data.category))];
+---
+
+<BaseLayout
+  title="ブログ"
+  description="柴犬とアウトドアを楽しむ熊本在住のしばぁのブログ。シーカヤック・キャンプ・釣り・ギアレビューなど。"
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-2xl md:text-3xl font-bold mb-2">ブログ</h1>
+    <p class="text-gray-500 dark:text-gray-400 mb-8">全 {posts.length} 記事</p>
+
+    <!-- カテゴリフィルター -->
+    {categories.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        <a
+          href="/blog"
+          class="text-sm px-4 py-1.5 rounded-full bg-sky-600 text-white no-underline"
+        >
+          すべて
+        </a>
+        {categories.map(cat => (
+          <a
+            href={`/category/${encodeURIComponent(cat)}`}
+            class="text-sm px-4 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-sky-500 hover:text-sky-600 dark:hover:text-sky-400 no-underline transition-colors"
+          >
+            {cat}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- 記事一覧 -->
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map(post => <ArticleCard post={post} />)}
+      </div>
+    ) : (
+      <p class="text-gray-500 dark:text-gray-400 text-center py-20">記事を準備中です…</p>
+    )}
+  </div>
+</BaseLayout>

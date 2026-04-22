@@ -1,0 +1,68 @@
+---
+const navLinks = [
+  { href: '/blog', label: 'ブログ' },
+  { href: '/about', label: 'プロフィール' },
+  { href: '/contact', label: 'お問い合わせ' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- ロゴ -->
+    <a href="/" class="text-xl font-bold text-sky-600 dark:text-sky-400 no-underline hover:opacity-80 transition-opacity">
+      🐕 しば海日和
+    </a>
+
+    <!-- デスクトップナビ -->
+    <nav class="hidden md:flex items-center gap-6">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            "text-sm font-medium no-underline transition-colors",
+            currentPath.startsWith(link.href)
+              ? "text-sky-600 dark:text-sky-400"
+              : "text-gray-600 hover:text-sky-600 dark:text-gray-300 dark:hover:text-sky-400"
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- モバイルメニューボタン -->
+    <button
+      id="menu-toggle"
+      class="md:hidden p-2 text-gray-600 dark:text-gray-300"
+      aria-label="メニューを開く"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- モバイルメニュー -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700">
+    <nav class="max-w-4xl mx-auto px-4 py-3 flex flex-col gap-3">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="text-sm font-medium text-gray-600 hover:text-sky-600 dark:text-gray-300 dark:hover:text-sky-400 no-underline py-1"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

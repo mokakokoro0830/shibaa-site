@@ -1,0 +1,28 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- アフィリエイト表記 -->
+    <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded px-3 py-2">
+      当サイトはAmazon.co.jpアソシエイト、楽天アフィリエイト、その他アフィリエイトプログラムに参加しています。記事内のリンクを経由して購入された場合、当サイトに一定の報酬が発生することがあります。
+    </p>
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <a href="/" class="text-lg font-bold text-sky-600 dark:text-sky-400 no-underline">
+        🐕 しば海日和
+      </a>
+
+      <nav class="flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+        <a href="/about" class="hover:text-sky-600 dark:hover:text-sky-400 no-underline">プロフィール</a>
+        <a href="/privacy" class="hover:text-sky-600 dark:hover:text-sky-400 no-underline">プライバシーポリシー</a>
+        <a href="/contact" class="hover:text-sky-600 dark:hover:text-sky-400 no-underline">お問い合わせ</a>
+      </nav>
+    </div>
+
+    <p class="text-xs text-gray-400 dark:text-gray-500 text-center mt-4">
+      © {year} しばぁ / しば海日和
+    </p>
+  </div>
+</footer>

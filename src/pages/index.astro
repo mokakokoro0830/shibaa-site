@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/blog/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'しば海日和',
+      url: 'https://shibaa.com',
+      description: '熊本在住。柴犬とアウトドアを楽しむ人のブログ。',
+    },
+    {
+      '@type': 'Person',
+      name: 'しばぁ',
+      url: 'https://shibaa.com/about',
+      jobTitle: 'Amazonせどり×AI活用×柴犬と暮らす人',
+      address: { '@type': 'PostalAddress', addressRegion: '熊本県' },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="しば海日和"
+  description="熊本在住のしばぁが柴犬とアウトドアを楽しむブログ。シーカヤック・キャンプ・釣りなどの体験記を発信中。"
+  jsonLd={jsonLd}
+>
+  <!-- ヒーローセクション -->
+  <section class="bg-gradient-to-b from-sky-50 to-white dark:from-gray-800 dark:to-gray-900 py-16 md:py-24">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <div class="text-6xl mb-4">🐕🌊</div>
+      <h1 class="text-3xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+        しば海日和
+      </h1>
+      <p class="text-sky-600 dark:text-sky-400 font-medium mb-6 text-lg">
+        熊本のAmazonせどり×AI活用×柴犬と暮らす人
+      </p>
+      <p class="text-gray-600 dark:text-gray-300 max-w-xl mx-auto leading-relaxed mb-8">
+        熊本を拠点に、柴犬とアウトドアを楽しむ日々を綴っています。
+        シーカヤック、キャンプ、釣り、そして愛犬との冒険記録。
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/blog"
+          class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-medium px-6 py-3 rounded-lg no-underline transition-colors"
+        >
+          ブログを読む
+        </a>
+        <a
+          href="/about"
+          class="inline-block border border-sky-600 text-sky-600 dark:text-sky-400 dark:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-900/20 font-medium px-6 py-3 rounded-lg no-underline transition-colors"
+        >
+          プロフィール
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 自己紹介 -->
+  <section class="py-12 max-w-4xl mx-auto px-4">
+    <div class="bg-sky-50 dark:bg-gray-800 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center">
+      <div class="text-7xl shrink-0">🐕</div>
+      <div>
+        <h2 class="text-xl font-bold mb-3">しばぁ について</h2>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+          熊本在住。柴犬と一緒にシーカヤックや釣り、キャンプを楽しんでいます。
+          本業はAmazonせどりとAI活用。自然の中で過ごす時間と、テクノロジーをうまく活用する日々の記録を発信中。
+          犬連れでも楽しめるアウトドアスポットや、ギアのレビューなども書いています。
+        </p>
+        <a href="/about" class="inline-block mt-3 text-sky-600 dark:text-sky-400 text-sm font-medium hover:underline">
+          詳しいプロフィールを見る →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 最新記事 -->
+  <section class="py-8 max-w-4xl mx-auto px-4">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-bold">最新の記事</h2>
+      <a href="/blog" class="text-sm text-sky-600 dark:text-sky-400 hover:underline">すべての記事 →</a>
+    </div>
+
+    {recentPosts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {recentPosts.map(post => <ArticleCard post={post} />)}
+      </div>
+    ) : (
+      <p class="text-gray-500 dark:text-gray-400 text-center py-12">記事を準備中です…</p>
+    )}
+  </section>
+
+  <!-- このサイトについて -->
+  <section class="py-12 bg-gray-50 dark:bg-gray-800/50">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-xl font-bold mb-6 text-center">このサイトについて</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          { icon: '🚣', title: 'アウトドア体験記', desc: '熊本の海・山・川でのアウトドア体験。特にシーカヤックと釣りが中心。' },
+          { icon: '🐕', title: '柴犬と一緒に', desc: '愛犬を連れて楽しめるスポットやペット連れキャンプの情報も発信。' },
+          { icon: '🛒', title: 'ギアレビュー', desc: '実際に使ったアウトドアギア・犬用品のリアルなレビューをお届け。' },
+        ].map(item => (
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 text-center shadow-sm">
+            <div class="text-4xl mb-3">{item.icon}</div>
+            <h3 class="font-bold mb-2">{item.title}</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-12 max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-xl font-bold mb-3">お気軽にご連絡ください</h2>
+    <p class="text-gray-500 dark:text-gray-400 mb-6">
+      記事への感想、コラボのご提案、ご質問などお待ちしています。
+    </p>
+    <a
+      href="/contact"
+      class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-medium px-8 py-3 rounded-lg no-underline transition-colors"
+    >
+      お問い合わせ
+    </a>
+  </section>
+</BaseLayout>

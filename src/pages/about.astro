@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="プロフィール"
+  description="しばぁのプロフィール。熊本在住。柴犬とアウトドア（シーカヤック・キャンプ・釣り）を楽しみながら、Amazonせどり・AI活用も実践中。"
+>
+  <div class="max-w-2xl mx-auto px-4 py-12">
+    <h1 class="text-2xl md:text-3xl font-bold mb-8">プロフィール</h1>
+
+    <div class="flex flex-col items-center gap-6 mb-10">
+      <div class="w-28 h-28 rounded-full bg-sky-100 dark:bg-sky-900 flex items-center justify-center text-6xl">
+        🐕
+      </div>
+      <div class="text-center">
+        <h2 class="text-xl font-bold">しばぁ</h2>
+        <p class="text-sky-600 dark:text-sky-400 text-sm mt-1">熊本のAmazonせどり×AI活用×柴犬と暮らす人</p>
+      </div>
+    </div>
+
+    <div class="prose dark:prose-invert">
+      <h2>自己紹介</h2>
+      <p>
+        熊本を拠点に生活しています。柴犬と一緒に、熊本の豊かな自然の中でアウトドアライフを楽しんでいます。
+        特にシーカヤックと釣りが好きで、天草や三角など、熊本ならではの海のフィールドを中心に活動しています。
+      </p>
+
+      <h2>好きなこと</h2>
+      <ul>
+        <li>🚣 シーカヤック（天草エリアが多め）</li>
+        <li>🎣 釣り（カヤックフィッシング）</li>
+        <li>⛺ キャンプ（犬連れキャンプが多い）</li>
+        <li>🐕 柴犬との散歩・冒険</li>
+        <li>🛒 Amazonせどり</li>
+        <li>🤖 AI活用・自動化</li>
+      </ul>
+
+      <h2>このブログについて</h2>
+      <p>
+        柴犬連れでも楽しめるアウトドアスポットや、実際に使ったギアのリアルなレビューを発信しています。
+        熊本のアウトドア情報はまだ少ないので、地元の情報をできるだけ詳しく書くことを意識しています。
+      </p>
+    </div>
+  </div>
+</BaseLayout>
